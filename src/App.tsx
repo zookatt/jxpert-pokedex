@@ -667,7 +667,7 @@ export const App = () => {
           )}
         </section>
         {!isLoading && showPokemons.length === 0 && (
-          <p className="nopokemonss">No pokemonss for "{findPokemons}"</p>
+          <p className="nopokemons">No pokemons for "{findPokemons}"</p>
         )}
       </main>
 
