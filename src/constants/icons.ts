@@ -1,3 +1,4 @@
+//datos fijos
 import bug from "../assets/bug.svg";
 import dark from "../assets/dark.svg";
 import dragon from "../assets/dragon.svg";

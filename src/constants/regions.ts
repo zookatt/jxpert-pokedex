@@ -1,3 +1,4 @@
+//datos fijos
 export const REGIONS = {
   kanto: { offset: 0, limit: 151 },
   johto: { offset: 151, limit: 100 },

@@ -1,8 +1,8 @@
 import type { Pokemon, PokemonStatName } from "../types/pokemon";
-
+//logica-sort
 export type SortOption = "default" | PokemonStatName;
 
-export function sortPokemons(pokemons: Pokemon[], sort: SortOption) {
+export function sortPokemons(pokemons: Pokemon[], sort: SortOption): Pokemon[] {
   return [...pokemons].sort((a, b) => {
     if (sort === "default") return a.id - b.id;
 

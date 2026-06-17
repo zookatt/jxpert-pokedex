@@ -1,6 +1,6 @@
 import type { Pokemon } from "../types/pokemon";
-
-export function filterPokemons(pokemons: Pokemon[], search: string) {
+//logica-filtrar
+export function filterPokemons(pokemons: Pokemon[], search: string): Pokemon[] {
   const query = search.toLowerCase().trim();
 
   return pokemons.filter(

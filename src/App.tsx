@@ -347,7 +347,7 @@ export const App = () => {
 
         {/* Muestra cartas cargando */}
         <section>
-          {isLoading && visiblePokemons.length > 0 && (
+          {isLoading && (
             <div className="grid" aria-hidden="true">
               {Array.from({ length: 6 }, (_, index) => {
                 return (
