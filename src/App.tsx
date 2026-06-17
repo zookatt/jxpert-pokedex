@@ -4,9 +4,8 @@ import pokeball from "./assets/pokeball.svg";
 import { REGION_OPTIONS, type RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
-import { PokemonCard } from "./components/molecules/PokemonCard";
-import { LoadingPokemonCard } from "./components/molecules/LoadingPokemonCard";
 import { PokemonGrid } from "./components/organisms/PokemonGrid";
+import { SortMenu } from "./components/molecules/SortMenu";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -20,7 +19,10 @@ export const App = () => {
     findPokemons,
     selectedSort,
   );
-
+  const selectSort = (sort: SortOption) => {
+    setSelectedSort(sort);
+    setIsSortMenuOpen(false);
+  };
   return (
     <div className="layout">
       <header className="header">
@@ -171,161 +173,7 @@ export const App = () => {
 
           {/* Muestra el menú de ordenación */}
           {isSortMenuOpen && (
-            <article className="sort__wrapper">
-              <h3 className="sort__title">Sort by</h3>
-              <div className="sort__items" role="listbox" id="sort-list">
-                <span
-                  role="radio"
-                  aria-label="Default"
-                  tabIndex={0}
-                  className={`sort__pill ${
-                    selectedSort === "default" ? "active" : ""
-                  }`}
-                  aria-checked={selectedSort === "default"}
-                  onClick={() => {
-                    setSelectedSort("default");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("default");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  {" "}
-                  Default
-                </span>
-                <span
-                  role="radio"
-                  aria-label="Health points"
-                  tabIndex={0}
-                  className={`sort__pill ${selectedSort === "hp" ? "active" : ""}`}
-                  aria-checked={selectedSort === "hp"}
-                  onClick={() => {
-                    setSelectedSort("hp");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("hp");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  {" "}
-                  Hp
-                </span>
-                <span
-                  role="radio"
-                  aria-label="Attack"
-                  tabIndex={0}
-                  className={`sort__pill ${
-                    selectedSort === "attack" ? "active" : ""
-                  }`}
-                  aria-checked={selectedSort === "attack"}
-                  onClick={() => {
-                    setSelectedSort("attack");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("attack");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  {" "}
-                  At
-                </span>
-                <span
-                  role="radio"
-                  aria-label="Defense"
-                  tabIndex={0}
-                  className={`sort__pill ${
-                    selectedSort === "defense" ? "active" : ""
-                  }`}
-                  aria-checked={selectedSort === "defense"}
-                  onClick={() => {
-                    setSelectedSort("defense");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("defense");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  Df
-                </span>
-                <span
-                  role="radio"
-                  aria-label="Special attack"
-                  tabIndex={0}
-                  className={`sort__pill ${
-                    selectedSort === "special-attack" ? "active" : ""
-                  }`}
-                  aria-checked={selectedSort === "special-attack"}
-                  onClick={() => {
-                    setSelectedSort("special-attack");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("special-attack");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  {" "}
-                  SpA
-                </span>
-                <span
-                  role="radio"
-                  aria-label="Special defense"
-                  tabIndex={0}
-                  className={`sort__pill ${
-                    selectedSort === "special-defense" ? "active" : ""
-                  }`}
-                  aria-checked={selectedSort === "special-defense"}
-                  onClick={() => {
-                    setSelectedSort("special-defense");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("special-defense");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  SpD
-                </span>
-                <span
-                  role="radio"
-                  aria-label="Speed"
-                  tabIndex={0}
-                  className={`sort__pill ${
-                    selectedSort === "speed" ? "active" : ""
-                  }`}
-                  aria-checked={selectedSort === "speed"}
-                  onClick={() => {
-                    setSelectedSort("speed");
-                    setIsSortMenuOpen(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedSort("speed");
-                      setIsSortMenuOpen(false);
-                    }
-                  }}
-                >
-                  {" "}
-                  Spd
-                </span>
-              </div>
-            </article>
+            <SortMenu selectedSort={selectedSort} onSelectSort={selectSort} />
           )}
         </section>
 
