@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { TYPE_ICONS } from "./constants/icons";
 import pokeball from "./assets/pokeball.svg";
 import { REGION_OPTIONS, type RegionName } from "./constants/regions";
-import { usePokemonsByRegion } from "./hooks/usePokemonsByRegions";
+import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
 
 export const App = () => {
