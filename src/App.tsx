@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { REGIONS, type RegionName } from "./constants/regions";
+import { filterPokemons } from "./utils/pokemonFilters";
+import { sortPokemons, type SortOption } from "./utils/pokemonSort";
+import type { Pokemon, PokemonTypeName } from "./types/pokemon";
+import type { CSSProperties } from "react";
+
 import bug from "./assets/bug.svg";
 import dark from "./assets/dark.svg";
 import dragon from "./assets/dragon.svg";
@@ -22,7 +28,7 @@ import pokeball from "./assets/pokeball.svg";
 /**
  *  Iconos de los tipos de Pokémon
  */
-const icons: any = {
+const icons: Record<PokemonTypeName, string> = {
   bug,
   dark,
   dragon,
@@ -43,28 +49,16 @@ const icons: any = {
   water,
 };
 
-const regions = [
-  "kanto",
-  "johto",
-  "hoenn",
-  "sinnoh",
-  "unova",
-  "kalos",
-  "alola",
-  "galar",
-  "paldea",
-];
+const regions = Object.keys(REGIONS) as RegionName[];
 
 export const App = () => {
-  const [isLoading, setIsLoading] = useState<any>(false);
-  const [isFiltering, setIsFiltering] = useState<any>(false);
-  const [pokemons, setPokemons] = useState<any>([]);
-  const [showPokemons, setShowPokemons] = useState<any>([]);
-  const [findPokemons, setFindPokemons] = useState<any>("");
-  const [selectedRegion, setSelectedRegion] = useState<any>("kanto");
-  const [isRegionVisible, setIsRegionVisible] = useState<any>(false);
-  const [isSortMenuOpen, setIsSortMenuOpen] = useState<any>(false);
-  const [selectedSort, setSelectedSort] = useState<any>("default");
+  const [isLoading, setIsLoading] = useState(false);
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [findPokemons, setFindPokemons] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState<RegionName>("kanto");
+  const [isRegionVisible, setIsRegionVisible] = useState(false);
+  const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
+  const [selectedSort, setSelectedSort] = useState<SortOption>("default");
 
   useEffect(() => {
     /**
@@ -72,145 +66,31 @@ export const App = () => {
      */
     const getData = async () => {
       setIsLoading(true);
-      setIsFiltering(true);
 
-      let regStart, regEnd;
-      if (selectedRegion === "kanto") {
-        regStart = 0;
-        regEnd = 151;
-      } else if (selectedRegion === "johto") {
-        regStart = 151;
-        regEnd = 100;
-      } else if (selectedRegion === "hoenn") {
-        regStart = 251;
-        regEnd = 135;
-      } else if (selectedRegion === "sinnoh") {
-        regStart = 386;
-        regEnd = 108;
-      } else if (selectedRegion === "unova") {
-        regStart = 494;
-        regEnd = 155;
-      } else if (selectedRegion === "kalos") {
-        regStart = 649;
-        regEnd = 72;
-      } else if (selectedRegion === "alola") {
-        regStart = 721;
-        regEnd = 88;
-      } else if (selectedRegion === "galar") {
-        regStart = 809;
-        regEnd = 96;
-      } else if (selectedRegion === "paldea") {
-        regStart = 905;
-        regEnd = 120;
-      } else {
-        regStart = 0;
-        regEnd = 151;
-      }
-      const { results }: any = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?offset=${regStart}&limit=${regEnd}`,
+      const { offset, limit } = REGIONS[selectedRegion];
+
+      const { results } = await fetch(
+        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`,
       ).then((res) => res.json());
+
       const pokemons = await Promise.all(
-        results.map(
-          async ({ url }) => await fetch(url).then((res) => res.json()),
+        results.map(({ url }: { url: string }) =>
+          fetch(url).then((res) => res.json()),
         ),
       );
+
       setPokemons(pokemons);
-      setShowPokemons(pokemons);
       setIsLoading(false);
     };
+
     getData();
   }, [selectedRegion]);
-  /**
-   * Filters pokemonss based on input query term.
-   */
-  useEffect(() => {
-    setShowPokemons(
-      pokemons.filter(
-        (res) =>
-          res.name.includes(findPokemons.toLowerCase()) ||
-          !!res.types.find((type) =>
-            type.type.name.startsWith(findPokemons.toLowerCase()),
-          ),
-      ),
-    );
-    setIsFiltering(false);
-  }, [pokemons[0]?.id, findPokemons]);
-  /**
-   * Sorts pokemonss based on selected selectedSort criteria.
-   */
-  useEffect(() => {
-    if (selectedSort !== "default") {
-      if (selectedSort === "hp") {
-        setShowPokemons((prev) =>
-          [...prev].sort((a, b) => {
-            const aStat = a.stats.find((stat) => stat.stat.name === "hp");
-            const bStat = b.stats.find((stat) => stat.stat.name === "hp");
-            return bStat.base_stat - aStat.base_stat;
-          }),
-        );
-      }
-      if (selectedSort === "attack") {
-        setShowPokemons((prev) =>
-          [...prev].sort((a, b) => {
-            const aStat = a.stats.find((stat) => stat.stat.name === "attack");
-            const bStat = b.stats.find((stat) => stat.stat.name === "attack");
-            return bStat.base_stat - aStat.base_stat;
-          }),
-        );
-      }
-      if (selectedSort === "defense") {
-        setShowPokemons((prev) =>
-          [...prev].sort((a, b) => {
-            const aStat = a.stats.find((stat) => stat.stat.name === "defense");
-            const bStat = b.stats.find((stat) => stat.stat.name === "defense");
-            return bStat.base_stat - aStat.base_stat;
-          }),
-        );
-      }
-      if (selectedSort === "special-attack") {
-        setShowPokemons((prev) =>
-          [...prev].sort((a, b) => {
-            const aStat = a.stats.find(
-              (stat) => stat.stat.name === "special-attack",
-            );
-            const bStat = b.stats.find(
-              (stat) => stat.stat.name === "special-attack",
-            );
-            return bStat.base_stat - aStat.base_stat;
-          }),
-        );
-      }
-      if (selectedSort === "special-defense") {
-        setShowPokemons((prev) =>
-          [...prev].sort((a, b) => {
-            const aStat = a.stats.find(
-              (stat) => stat.stat.name === "special-defense",
-            );
-            const bStat = b.stats.find(
-              (stat) => stat.stat.name === "special-defense",
-            );
-            return bStat.base_stat - aStat.base_stat;
-          }),
-        );
-      }
-      if (selectedSort === "speed") {
-        setShowPokemons((prev) =>
-          [...prev].sort((a, b) => {
-            const aStat = a.stats.find((stat) => stat.stat.name === "speed");
-            const bStat = b.stats.find((stat) => stat.stat.name === "speed");
-            return bStat.base_stat - aStat.base_stat;
-          }),
-        );
-      }
-    }
-    if (selectedSort === "default") {
-      setShowPokemons((prev) =>
-        [...prev].sort((a, b) => {
-          return a.id - b.id;
-        }),
-      );
-    }
-  }, [showPokemons[0]?.id, selectedSort]);
+
+  const visiblePokemons = useMemo(() => {
+    const filteredPokemons = filterPokemons(pokemons, findPokemons);
+
+    return sortPokemons(filteredPokemons, selectedSort);
+  }, [pokemons, findPokemons, selectedSort]);
 
   return (
     <div className="layout">
@@ -455,16 +335,16 @@ export const App = () => {
                   aria-label="Special attack"
                   tabIndex={0}
                   className={`sort__pill ${
-                    selectedSort === "specialAttack" ? "active" : ""
+                    selectedSort === "special-attack" ? "active" : ""
                   }`}
-                  aria-checked={selectedSort === "specialAttack"}
+                  aria-checked={selectedSort === "special-attack"}
                   onClick={() => {
-                    setSelectedSort("specialAttack");
+                    setSelectedSort("special-attack");
                     setIsSortMenuOpen(false);
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      setSelectedSort("specialAttack");
+                      setSelectedSort("special-attack");
                       setIsSortMenuOpen(false);
                     }
                   }}
@@ -477,16 +357,16 @@ export const App = () => {
                   aria-label="Special defense"
                   tabIndex={0}
                   className={`sort__pill ${
-                    selectedSort === "specialDefense" ? "active" : ""
+                    selectedSort === "special-defense" ? "active" : ""
                   }`}
-                  aria-checked={selectedSort === "specialDefense"}
+                  aria-checked={selectedSort === "special-defense"}
                   onClick={() => {
-                    setSelectedSort("specialDefense");
+                    setSelectedSort("special-defense");
                     setIsSortMenuOpen(false);
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      setSelectedSort("specialDefense");
+                      setSelectedSort("special-defense");
                       setIsSortMenuOpen(false);
                     }
                   }}
@@ -522,7 +402,7 @@ export const App = () => {
 
         {/* Muestra cartas cargando */}
         <section>
-          {(isLoading || isFiltering) && (
+          {isLoading && visiblePokemons.length > 0 && (
             <div className="grid" aria-hidden="true">
               {Array.from({ length: 6 }, (_, index) => {
                 return (
@@ -539,12 +419,12 @@ export const App = () => {
             </div>
           )}
           {/* Prints cards */}
-          {!isFiltering && !isLoading && showPokemons.length > 0 && (
+          {!isLoading && visiblePokemons.length > 0 && (
             <ul className="grid">
-              {showPokemons.map((res) => {
-                const customStyles: any = {
+              {visiblePokemons.map((res) => {
+                const customStyles = {
                   "--color-type": `var(--color-${res.types[0].type.name}`,
-                };
+                } as CSSProperties;
 
                 return (
                   <li key={`pokemon-card-${res.id}`}>
@@ -571,7 +451,8 @@ export const App = () => {
                       <img
                         className="card__avatar"
                         src={
-                          res.sprites.other["official-artwork"].front_default
+                          res.sprites.other["official-artwork"].front_default ??
+                          undefined
                         }
                         loading="lazy"
                         alt={`${res.name} artwork`}
@@ -666,7 +547,7 @@ export const App = () => {
             </ul>
           )}
         </section>
-        {!isLoading && showPokemons.length === 0 && (
+        {!isLoading && visiblePokemons.length === 0 && (
           <p className="nopokemons">No pokemons for "{findPokemons}"</p>
         )}
       </main>

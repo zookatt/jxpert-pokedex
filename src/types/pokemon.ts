@@ -26,25 +26,38 @@ export type PokemonStatName =
   | "special-defense"
   | "speed";
 
-export type Pokemon = {
+export interface PokemonType {
+  type: {
+    name: PokemonTypeName;
+  };
+}
+
+export interface PokemonStat {
+  base_stat: number;
+  stat: {
+    name: PokemonStatName;
+  };
+}
+
+export interface Pokemon {
   id: number;
   name: string;
-  types: {
-    type: {
-      name: PokemonTypeName;
-    };
-  }[];
-  stats: {
-    base_stat: number;
-    stat: {
-      name: PokemonStatName;
-    };
-  }[];
+  types: PokemonType[];
+  stats: PokemonStat[];
   sprites: {
     other: {
       "official-artwork": {
-        front_default: string;
+        front_default: string | null;
       };
     };
   };
-};
+}
+
+export interface PokemonListItem {
+  name: string;
+  url: string;
+}
+
+export interface PokemonListResponse {
+  results: PokemonListItem[];
+}
