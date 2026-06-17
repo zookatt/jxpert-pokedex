@@ -12,3 +12,4 @@ export const REGIONS = {
 } as const;
 
 export type RegionName = keyof typeof REGIONS;
+export const REGION_OPTIONS = Object.keys(REGIONS) as RegionName[];

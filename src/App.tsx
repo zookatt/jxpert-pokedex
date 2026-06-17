@@ -1,35 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
-import { REGIONS, type RegionName } from "./constants/regions";
+import { useMemo, useState } from "react";
 import { filterPokemons } from "./utils/pokemonFilters";
 import { sortPokemons, type SortOption } from "./utils/pokemonSort";
-import type { Pokemon } from "./types/pokemon";
 import type { CSSProperties } from "react";
 import { TYPE_ICONS } from "./constants/icons";
 import pokeball from "./assets/pokeball.svg";
-import { getPokemonsByRegion } from "./services/pokemonApi";
-const regions = Object.keys(REGIONS) as RegionName[];
+import { REGION_OPTIONS, REGIONS, type RegionName } from "./constants/regions";
+import { usePokemonsByRegion } from "./hooks/usePokemonsByRegions";
 
 export const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [findPokemons, setFindPokemons] = useState("");
   const [selectedRegion, setSelectedRegion] = useState<RegionName>("kanto");
   const [isRegionVisible, setIsRegionVisible] = useState(false);
   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<SortOption>("default");
-
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-
-      const pokemons = await getPokemonsByRegion(selectedRegion);
-
-      setPokemons(pokemons);
-      setIsLoading(false);
-    };
-
-    getData();
-  }, [selectedRegion]);
+  const { pokemons, isLoading } = usePokemonsByRegion(selectedRegion);
 
   const visiblePokemons = useMemo(() => {
     const filteredPokemons = filterPokemons(pokemons, findPokemons);
@@ -123,7 +107,7 @@ export const App = () => {
               hidden={!isRegionVisible}
               className={`dropdown__list ${!isRegionVisible ? "hide" : ""}`}
             >
-              {regions.map((key) => (
+              {REGION_OPTIONS.map((key) => (
                 <li
                   key={key}
                   role="radio"
