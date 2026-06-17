@@ -8,6 +8,7 @@ import { PokemonGrid } from "./components/organisms/PokemonGrid";
 import { SortMenu } from "./components/molecules/SortMenu";
 import { SearchBar } from "./components/molecules/SearchBar";
 import { RegionDropdown } from "./components/molecules/RegionDropdown";
+import { SortButton } from "./components/atoms/SortButton";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -37,6 +38,12 @@ export const App = () => {
     setSelectedRegion(region);
     setIsRegionVisible(false);
   };
+
+  const toggleSortMenu = () => {
+    setIsSortMenuOpen((isOpen) => !isOpen);
+    setIsRegionVisible(false);
+  };
+
   return (
     <div className="layout">
       <header className="header">
@@ -56,43 +63,7 @@ export const App = () => {
             onSelectRegion={selectRegion}
           />
 
-          <button
-            role="combobox"
-            aria-haspopup="listbox"
-            aria-controls="sort-list"
-            aria-label="Sort by"
-            aria-expanded={isSortMenuOpen}
-            className="sort__button"
-            onClick={() =>
-              setIsSortMenuOpen((prev) => {
-                if (isRegionVisible) setIsRegionVisible(false);
-                return !prev;
-              })
-            }
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={
-                isSortMenuOpen
-                  ? "var(--color-accent)"
-                  : "var(--color-neutral-700)"
-              }
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 6l9 0" />
-              <path d="M4 12l7 0" />
-              <path d="M4 18l7 0" />
-              <path d="M15 15l3 3l3 -3" />
-              <path d="M18 6l0 12" />
-            </svg>
-          </button>
+          <SortButton isOpen={isSortMenuOpen} onClick={toggleSortMenu} />
 
           {/* Muestra el menú de ordenación */}
           {isSortMenuOpen && (
