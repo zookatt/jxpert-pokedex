@@ -4,50 +4,8 @@ import { filterPokemons } from "./utils/pokemonFilters";
 import { sortPokemons, type SortOption } from "./utils/pokemonSort";
 import type { Pokemon, PokemonTypeName } from "./types/pokemon";
 import type { CSSProperties } from "react";
-
-import bug from "./assets/bug.svg";
-import dark from "./assets/dark.svg";
-import dragon from "./assets/dragon.svg";
-import electric from "./assets/electric.svg";
-import fairy from "./assets/fairy.svg";
-import fighting from "./assets/fighting.svg";
-import fire from "./assets/fire.svg";
-import flying from "./assets/flying.svg";
-import ghost from "./assets/ghost.svg";
-import grass from "./assets/grass.svg";
-import ground from "./assets/ground.svg";
-import ice from "./assets/ice.svg";
-import normal from "./assets/normal.svg";
-import poison from "./assets/poison.svg";
-import psychic from "./assets/psychic.svg";
-import rock from "./assets/rock.svg";
-import steel from "./assets/steel.svg";
-import water from "./assets/water.svg";
+import { TYPE_ICONS } from "./constants/icons";
 import pokeball from "./assets/pokeball.svg";
-
-/**
- *  Iconos de los tipos de Pokémon
- */
-const icons: Record<PokemonTypeName, string> = {
-  bug,
-  dark,
-  dragon,
-  electric,
-  fairy,
-  fighting,
-  fire,
-  flying,
-  ghost,
-  grass,
-  ground,
-  ice,
-  normal,
-  poison,
-  psychic,
-  rock,
-  steel,
-  water,
-};
 
 const regions = Object.keys(REGIONS) as RegionName[];
 
@@ -435,13 +393,13 @@ export const App = () => {
                         </div>
                         <div className="card__tag">
                           <img
-                            src={icons[res.types[0].type.name]}
+                            src={TYPE_ICONS[res.types[0].type.name]}
                             className="card__type"
                             alt={`${res.types[0].type.name} primary type`}
                           />
                           {res.types[1] && (
                             <img
-                              src={icons[res.types[1].type.name]}
+                              src={TYPE_ICONS[res.types[1].type.name]}
                               className="card__type"
                               alt={`${res.types[1].type.name} secondary type`}
                             />
