@@ -6,6 +6,7 @@ import { REGION_OPTIONS, type RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
 import { TypeIcon } from "./components/atoms/TypeIcon";
+import { StatBar } from "./components/atoms/StatBar";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -386,84 +387,36 @@ export const App = () => {
                       <section className="card__content">
                         <h3 className="card__title">{res.name}</h3>
                         <ul aria-description="Stats resume">
-                          <li className="card__stat" aria-label="Health points">
-                            <div className="stat__value">
-                              <p className="stat__name" aria-hidden="true">
-                                Hp
-                              </p>
-                              <p>{res.stats[0].base_stat}</p>
-                            </div>
-                            <progress
-                              value={res.stats[0].base_stat}
-                              max="255"
-                            ></progress>
-                          </li>
-                          <li className="card__stat" aria-label="Attack">
-                            <div className="stat__value">
-                              <p className="stat__name" aria-hidden="true">
-                                At
-                              </p>
-                              <p>{res.stats[1].base_stat}</p>
-                            </div>
-                            <progress
-                              value={res.stats[1].base_stat}
-                              max="255"
-                            ></progress>
-                          </li>
-                          <li className="card__stat" aria-label="Defense">
-                            <div className="stat__value">
-                              <p className="stat__name" aria-hidden="true">
-                                Df
-                              </p>
-                              <p>{res.stats[2].base_stat}</p>
-                            </div>
-                            <progress
-                              value={res.stats[2].base_stat}
-                              max="255"
-                            ></progress>
-                          </li>
-                          <li
-                            className="card__stat"
-                            aria-label="Special attack"
-                          >
-                            <div className="stat__value">
-                              <p className="stat__name" aria-hidden="true">
-                                SpA
-                              </p>
-                              <p>{res.stats[3].base_stat}</p>
-                            </div>
-                            <progress
-                              value={res.stats[3].base_stat}
-                              max="255"
-                            ></progress>
-                          </li>
-                          <li
-                            className="card__stat"
-                            aria-label="Special defense"
-                          >
-                            <div className="stat__value">
-                              <p className="stat__name" aria-hidden="true">
-                                SpD
-                              </p>
-                              <p>{res.stats[4].base_stat}</p>
-                            </div>
-                            <progress
-                              value={res.stats[4].base_stat}
-                              max="255"
-                            ></progress>
-                          </li>
-                          <li className="card__stat" aria-label="Speed">
-                            <div className="stat__value">
-                              <p className="stat__name" aria-hidden="true">
-                                Spd
-                              </p>
-                              <p>{res.stats[5].base_stat}</p>
-                            </div>
-                            <progress
-                              value={res.stats[5].base_stat}
-                              max="255"
-                            ></progress>
-                          </li>
+                          <StatBar
+                            label="Health points"
+                            shortName="Hp"
+                            value={res.stats[0].base_stat}
+                          />
+                          <StatBar
+                            label="Attack"
+                            shortName="At"
+                            value={res.stats[1].base_stat}
+                          />
+                          <StatBar
+                            label="Defense"
+                            shortName="Df"
+                            value={res.stats[2].base_stat}
+                          />
+                          <StatBar
+                            label="Special attack"
+                            shortName="SpA"
+                            value={res.stats[3].base_stat}
+                          />
+                          <StatBar
+                            label="Special defense"
+                            shortName="SpD"
+                            value={res.stats[4].base_stat}
+                          />
+                          <StatBar
+                            label="Speed"
+                            shortName="Spd"
+                            value={res.stats[5].base_stat}
+                          />
                         </ul>
                       </section>
                     </article>
