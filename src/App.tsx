@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { type SortOption } from "./utils/pokemonSort";
+import { SortOption } from "./utils/pokemonSort";
 import pokeball from "./assets/pokeball.svg";
-import { REGION_OPTIONS, type RegionName } from "./constants/regions";
+import { RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
 import { PokemonGrid } from "./components/organisms/PokemonGrid";
 import { SortMenu } from "./components/molecules/SortMenu";
 import { SearchBar } from "./components/molecules/SearchBar";
+import { RegionDropdown } from "./components/molecules/RegionDropdown";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -27,6 +28,15 @@ export const App = () => {
     setIsSortMenuOpen(false);
   };
 
+  const toggleRegionMenu = () => {
+    setIsRegionVisible((isVisible) => !isVisible);
+    setIsSortMenuOpen(false);
+  };
+
+  const selectRegion = (region: RegionName) => {
+    setSelectedRegion(region);
+    setIsRegionVisible(false);
+  };
   return (
     <div className="layout">
       <header className="header">
@@ -39,76 +49,12 @@ export const App = () => {
         <section className="search">
           <SearchBar value={findPokemons} onChange={setFindPokemons} />
           {/* Shows regions */}
-          <div className="dropdown">
-            <button
-              role="combobox"
-              aria-haspopup="listbox"
-              aria-controls="regions-list"
-              aria-label="Select regions"
-              aria-expanded={isRegionVisible}
-              className={`dropdown__button ${isRegionVisible ? "active" : ""}`}
-              onClick={() =>
-                setIsRegionVisible((prev) => {
-                  if (isSortMenuOpen) {
-                    setIsSortMenuOpen(false);
-                  }
-                  return !prev;
-                })
-              }
-            >
-              {selectedRegion}
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.33337 5.99999L8.00004 3.33333L10.6667 5.99999"
-                  stroke="var(--color-neutral-600)"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M10.6667 10L8.00004 12.6667L5.33337 10"
-                  stroke="var(--color-neutral-600)"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <ol
-              role="listbox"
-              id="regions-list"
-              hidden={!isRegionVisible}
-              className={`dropdown__list ${!isRegionVisible ? "hide" : ""}`}
-            >
-              {REGION_OPTIONS.map((key) => (
-                <li
-                  key={key}
-                  role="radio"
-                  aria-checked={selectedRegion === key}
-                  tabIndex={0}
-                  className={selectedRegion === key ? "active" : ""}
-                  onClick={() => {
-                    setSelectedRegion(key);
-                    setIsRegionVisible(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setSelectedRegion(key);
-                      setIsRegionVisible(false);
-                    }
-                  }}
-                >
-                  {key}
-                </li>
-              ))}
-            </ol>
-          </div>
+          <RegionDropdown
+            selectedRegion={selectedRegion}
+            isOpen={isRegionVisible}
+            onToggle={toggleRegionMenu}
+            onSelectRegion={selectRegion}
+          />
 
           <button
             role="combobox"
