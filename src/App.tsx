@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { type SortOption } from "./utils/pokemonSort";
-import type { CSSProperties } from "react";
 import pokeball from "./assets/pokeball.svg";
 import { REGION_OPTIONS, type RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
-import { TypeIcon } from "./components/atoms/TypeIcon";
-import { PokemonStats } from "./components/molecules/PokemonStats";
+import { PokemonCard } from "./components/organisms/PokemonCard";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -350,48 +348,12 @@ export const App = () => {
           {/* Prints cards */}
           {!isLoading && visiblePokemons.length > 0 && (
             <ul className="grid">
-              {visiblePokemons.map((res) => {
-                const customStyles = {
-                  "--color-type": `var(--color-${res.types[0].type.name}`,
-                } as CSSProperties;
-
-                return (
-                  <li key={`pokemon-card-${res.id}`}>
-                    <article className="card" style={customStyles}>
-                      <header className="card__head">
-                        <div className="card__tag">
-                          <p>#{res.id.toString().padStart(3, "0")}</p>
-                        </div>
-                        <div className="card__tag">
-                          <TypeIcon
-                            type={res.types[0].type.name}
-                            label="primary type"
-                          />
-                          {res.types[1] && (
-                            <TypeIcon
-                              type={res.types[1].type.name}
-                              label="secondary type"
-                            />
-                          )}
-                        </div>
-                      </header>
-                      <img
-                        className="card__avatar"
-                        src={
-                          res.sprites.other["official-artwork"].front_default ??
-                          undefined
-                        }
-                        loading="lazy"
-                        alt={`${res.name} artwork`}
-                      />
-                      <section className="card__content">
-                        <h3 className="card__title">{res.name}</h3>
-                        <PokemonStats stats={res.stats} />
-                      </section>
-                    </article>
-                  </li>
-                );
-              })}
+              {visiblePokemons.map((pokemon) => (
+                <PokemonCard
+                  key={`pokemon-card-${pokemon.id}`}
+                  pokemon={pokemon}
+                />
+              ))}
             </ul>
           )}
         </section>
