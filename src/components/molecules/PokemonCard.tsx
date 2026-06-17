@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { TypeIcon } from "../atoms/TypeIcon";
-import { PokemonStats } from "../molecules/PokemonStats";
+import { PokemonStats } from "./PokemonStats";
 import type { Pokemon } from "../../types/pokemon";
 
 interface PokemonCardProps {
@@ -34,8 +34,7 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
         <img
           className="card__avatar"
           src={
-            pokemon.sprites.other["official-artwork"].front_default ??
-            undefined
+            pokemon.sprites.other["official-artwork"].front_default ?? undefined
           }
           loading="lazy"
           alt={`${pokemon.name} artwork`}

@@ -4,8 +4,9 @@ import pokeball from "./assets/pokeball.svg";
 import { REGION_OPTIONS, type RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
-import { PokemonCard } from "./components/organisms/PokemonCard";
+import { PokemonCard } from "./components/molecules/PokemonCard";
 import { LoadingPokemonCard } from "./components/molecules/LoadingPokemonCard";
+import { PokemonGrid } from "./components/organisms/PokemonGrid";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -330,24 +331,7 @@ export const App = () => {
 
         {/* Muestra cartas cargando */}
         <section>
-          {isLoading && (
-            <div className="grid" aria-hidden="true">
-              {Array.from({ length: 6 }, (_, index) => (
-                <LoadingPokemonCard key={`placeholder-card-${index}`} />
-              ))}
-            </div>
-          )}
-          {/* Prints cards */}
-          {!isLoading && visiblePokemons.length > 0 && (
-            <ul className="grid">
-              {visiblePokemons.map((pokemon) => (
-                <PokemonCard
-                  key={`pokemon-card-${pokemon.id}`}
-                  pokemon={pokemon}
-                />
-              ))}
-            </ul>
-          )}
+          <PokemonGrid pokemons={visiblePokemons} isLoading={isLoading} />
         </section>
         {!isLoading && visiblePokemons.length === 0 && (
           <p className="nopokemons">No pokemons for "{findPokemons}"</p>
