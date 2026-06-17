@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react";
-import { filterPokemons } from "./utils/pokemonFilters";
-import { sortPokemons, type SortOption } from "./utils/pokemonSort";
+import { useState } from "react";
+import { type SortOption } from "./utils/pokemonSort";
 import type { CSSProperties } from "react";
 import { TYPE_ICONS } from "./constants/icons";
 import pokeball from "./assets/pokeball.svg";
-import { REGION_OPTIONS, REGIONS, type RegionName } from "./constants/regions";
+import { REGION_OPTIONS, type RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegions";
+import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -14,12 +14,11 @@ export const App = () => {
   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<SortOption>("default");
   const { pokemons, isLoading } = usePokemonsByRegion(selectedRegion);
-
-  const visiblePokemons = useMemo(() => {
-    const filteredPokemons = filterPokemons(pokemons, findPokemons);
-
-    return sortPokemons(filteredPokemons, selectedSort);
-  }, [pokemons, findPokemons, selectedSort]);
+  const visiblePokemons = useVisiblePokemons(
+    pokemons,
+    findPokemons,
+    selectedSort,
+  );
 
   return (
     <div className="layout">
