@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { SortOption } from "./utils/pokemonSort";
-import pokeball from "./assets/pokeball.svg";
 import { RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
 import { PokemonGrid } from "./components/organisms/PokemonGrid";
-import { SortMenu } from "./components/molecules/SortMenu";
-import { SearchBar } from "./components/molecules/SearchBar";
-import { RegionDropdown } from "./components/molecules/RegionDropdown";
-import { SortButton } from "./components/atoms/SortButton";
+import { Header } from "./components/organisms/Header";
+import { Footer } from "./components/organisms/Footer";
+import { PokemonFeatures } from "./components/organisms/PokemonFeatures";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -46,47 +44,30 @@ export const App = () => {
 
   return (
     <div className="layout">
-      <header className="header">
-        <img src={pokeball} alt="" className="header__logo" />
-        <p className="header__title">Pokédex</p>
-      </header>
-
-      {/* Searcher */}
+      <Header />
+      
       <main className="container">
-        <section className="search">
-          <SearchBar value={findPokemons} onChange={setFindPokemons} />
-          {/* Shows regions */}
-          <RegionDropdown
-            selectedRegion={selectedRegion}
-            isOpen={isRegionVisible}
-            onToggle={toggleRegionMenu}
-            onSelectRegion={selectRegion}
-          />
+        <PokemonFeatures
+          search={findPokemons}
+          selectedRegion={selectedRegion}
+          selectedSort={selectedSort}
+          isRegionOpen={isRegionVisible}
+          isSortOpen={isSortMenuOpen}
+          onSearchChange={setFindPokemons}
+          onRegionToggle={toggleRegionMenu}
+          onRegionSelect={selectRegion}
+          onSortToggle={toggleSortMenu}
+          onSortSelect={selectSort}
+        />
 
-          <SortButton isOpen={isSortMenuOpen} onClick={toggleSortMenu} />
+        <PokemonGrid pokemons={visiblePokemons} isLoading={isLoading} />
 
-          {/* Muestra el menú de ordenación */}
-          {isSortMenuOpen && (
-            <SortMenu selectedSort={selectedSort} onSelectSort={selectSort} />
-          )}
-        </section>
-
-        {/* Muestra cartas cargando */}
-        <section>
-          <PokemonGrid pokemons={visiblePokemons} isLoading={isLoading} />
-        </section>
         {!isLoading && visiblePokemons.length === 0 && (
           <p className="nopokemons">No pokemons for "{findPokemons}"</p>
         )}
       </main>
 
-      <footer className="footer">
-        <p>
-          ©{new Date().getFullYear()} Pokémon. ©1995 -{" "}
-          {new Date().getFullYear()} Nintendo/Creatures Inc./GAME FREAK inc. TM,
-          ®Nintendo.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 };
