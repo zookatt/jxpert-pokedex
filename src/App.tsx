@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { type SortOption } from "./utils/pokemonSort";
 import type { CSSProperties } from "react";
-import { TYPE_ICONS } from "./constants/icons";
 import pokeball from "./assets/pokeball.svg";
 import { REGION_OPTIONS, type RegionName } from "./constants/regions";
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
+import { TypeIcon } from "./components/atoms/TypeIcon";
 
 export const App = () => {
   const [findPokemons, setFindPokemons] = useState("");
@@ -362,16 +362,14 @@ export const App = () => {
                           <p>#{res.id.toString().padStart(3, "0")}</p>
                         </div>
                         <div className="card__tag">
-                          <img
-                            src={TYPE_ICONS[res.types[0].type.name]}
-                            className="card__type"
-                            alt={`${res.types[0].type.name} primary type`}
+                          <TypeIcon
+                            type={res.types[0].type.name}
+                            label="primary type"
                           />
                           {res.types[1] && (
-                            <img
-                              src={TYPE_ICONS[res.types[1].type.name]}
-                              className="card__type"
-                              alt={`${res.types[1].type.name} secondary type`}
+                            <TypeIcon
+                              type={res.types[1].type.name}
+                              label="secondary type"
                             />
                           )}
                         </div>
