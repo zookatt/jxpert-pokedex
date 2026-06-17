@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { REGIONS, type RegionName } from "./constants/regions";
 import { filterPokemons } from "./utils/pokemonFilters";
 import { sortPokemons, type SortOption } from "./utils/pokemonSort";
-import type { Pokemon, PokemonTypeName } from "./types/pokemon";
+import type { Pokemon } from "./types/pokemon";
 import type { CSSProperties } from "react";
 import { TYPE_ICONS } from "./constants/icons";
 import pokeball from "./assets/pokeball.svg";
-
+import { getPokemonsByRegion } from "./services/pokemonApi";
 const regions = Object.keys(REGIONS) as RegionName[];
 
 export const App = () => {
@@ -19,23 +19,10 @@ export const App = () => {
   const [selectedSort, setSelectedSort] = useState<SortOption>("default");
 
   useEffect(() => {
-    /**
-     *  Carga de datos de Pokémons y gestión de estado de cargando.
-     */
     const getData = async () => {
       setIsLoading(true);
 
-      const { offset, limit } = REGIONS[selectedRegion];
-
-      const { results } = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`,
-      ).then((res) => res.json());
-
-      const pokemons = await Promise.all(
-        results.map(({ url }: { url: string }) =>
-          fetch(url).then((res) => res.json()),
-        ),
-      );
+      const pokemons = await getPokemonsByRegion(selectedRegion);
 
       setPokemons(pokemons);
       setIsLoading(false);
