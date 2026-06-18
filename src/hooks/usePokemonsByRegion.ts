@@ -3,7 +3,12 @@ import { getPokemonsByRegion } from "../services/pokemonApi";
 import type { RegionName } from "../constants/regions";
 import type { Pokemon } from "../types/pokemon";
 
-export function usePokemonsByRegion(region: RegionName) {
+type GetPokemonsByRegion = (region: RegionName) => Promise<Pokemon[]>;
+
+export function usePokemonsByRegion(
+  region: RegionName,
+  getPokemons: GetPokemonsByRegion = getPokemonsByRegion,
+) {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +20,7 @@ export function usePokemonsByRegion(region: RegionName) {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getPokemonsByRegion(region);
+        const data = await getPokemons(region);
 
         if (!ignore) {
           setPokemons(data);
@@ -37,7 +42,7 @@ export function usePokemonsByRegion(region: RegionName) {
     return () => {
       ignore = true;
     };
-  }, [region]);
+  }, [region, getPokemons]);
 
   return { pokemons, isLoading, error };
 }
