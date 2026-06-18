@@ -10,11 +10,20 @@ export async function getPokemonsByRegion(
     `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`,
   );
 
+  if (!response.ok) {
+  throw new Error("Could not fetch pokemon list");
+}
   const { results }: PokemonListResponse = await response.json();
 
   return Promise.all(
-    results.map(({ url }: { url: string }) =>
-      fetch(url).then((res) => res.json()),
-    ),
-  );
+  results.map(async ({ url }) => {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Could not fetch pokemon detail");
+    }
+
+    return response.json();
+  }),
+);
 }

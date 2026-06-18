@@ -6,18 +6,24 @@ import type { Pokemon } from "../types/pokemon";
 export function usePokemonsByRegion(region: RegionName) {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let ignore = false;
 
     async function loadPokemons() {
       setIsLoading(true);
-
+      setError(null);
       try {
         const data = await getPokemonsByRegion(region);
 
         if (!ignore) {
           setPokemons(data);
+        }
+      } catch {
+        if (!ignore) {
+          setError("Could not load pokemons");
+          setPokemons([]);
         }
       } finally {
         if (!ignore) {
@@ -33,5 +39,5 @@ export function usePokemonsByRegion(region: RegionName) {
     };
   }, [region]);
 
-  return { pokemons, isLoading };
+  return { pokemons, isLoading, error };
 }

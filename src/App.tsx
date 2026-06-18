@@ -19,7 +19,7 @@ export const App = () => {
     handleSortMenuToggle,
     handleSortSelect,
   } = usePokemonFeatures();
-  const { pokemons, isLoading } = usePokemonsByRegion(selectedRegion);
+  const { pokemons, isLoading, error } = usePokemonsByRegion(selectedRegion);
 
   const visiblePokemons = useVisiblePokemons(pokemons, search, selectedSort);
 
@@ -42,7 +42,9 @@ export const App = () => {
 
         <PokemonGrid pokemons={visiblePokemons} isLoading={isLoading} />
 
-        {!isLoading && visiblePokemons.length === 0 && (
+        {error && !isLoading && <p className="nopokemons">{error}</p>}
+
+        {!error && !isLoading && visiblePokemons.length === 0 && (
           <p className="nopokemons">No pokemons for "{search}"</p>
         )}
       </main>
