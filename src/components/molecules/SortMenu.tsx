@@ -12,7 +12,13 @@ export function SortMenu({ selectedSort, onSelectSort }: SortMenuProps) {
     <article className="sort__wrapper">
       <h3 className="sort__title">Sort by</h3>
 
-      <div className="sort__items" role="listbox" id="sort-list">
+      <div
+        className="sort__items"
+        role="radiogroup"
+        id="sort-list"
+        aria-label="Sort by"
+      >
+        {" "}
         {SORT_OPTIONS.map((option) => (
           <SortPill
             key={option.value}

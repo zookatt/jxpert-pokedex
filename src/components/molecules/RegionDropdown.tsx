@@ -51,26 +51,24 @@ export function RegionDropdown({
       </button>
 
       <ol
-        role="listbox"
+        role="radiogroup"
         id="regions-list"
         hidden={!isOpen}
         className={`dropdown__list ${!isOpen ? "hide" : ""}`}
       >
         {REGION_OPTIONS.map((region) => (
-          <li
-            key={region}
-            role="radio"
-            aria-checked={selectedRegion === region}
-            tabIndex={0}
-            className={selectedRegion === region ? "active" : ""}
-            onClick={() => onSelectRegion(region)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                onSelectRegion(region);
-              }
-            }}
-          >
-            {region}
+          <li key={region}>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={selectedRegion === region}
+              className={`dropdown__option ${
+                selectedRegion === region ? "active" : ""
+              }`}
+              onClick={() => onSelectRegion(region)}
+            >
+              {region}
+            </button>
           </li>
         ))}
       </ol>

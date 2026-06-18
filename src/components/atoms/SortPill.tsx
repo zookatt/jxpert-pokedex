@@ -22,20 +22,15 @@ export function SortPill({
   };
 
   return (
-    <span
+    <button
+      type="button"
       role="radio"
       aria-label={label}
-      tabIndex={0}
       className={`sort__pill ${isSelected ? "active" : ""}`}
       aria-checked={isSelected}
       onClick={handleSelect}
-      onKeyDown={(event) => {
-        if (event.key === "Enter") {
-          handleSelect();
-        }
-      }}
     >
       {shortLabel}
-    </span>
+    </button>
   );
 }
