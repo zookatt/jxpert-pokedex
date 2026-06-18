@@ -1,23 +1,35 @@
 import { sortPokemons } from "./pokemonSort";
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonCardData, PokemonStatName } from "../types/pokemon";
 import { describe, expect, it } from "vitest";
+
+const createStats = (
+  overrides: Partial<Record<PokemonStatName, number>> = {},
+): Record<PokemonStatName, number> => ({
+  hp: 0,
+  attack: 0,
+  defense: 0,
+  "special-attack": 0,
+  "special-defense": 0,
+  speed: 0,
+  ...overrides,
+});
 
 const pokemons = [
   {
     id: 2,
     name: "ivysaur",
+    image: null,
     types: [],
-    stats: [{ base_stat: 62, stat: { name: "attack" } }],
-    sprites: { other: { "official-artwork": { front_default: null } } },
+    stats: createStats({ attack: 62 }),
   },
   {
     id: 1,
     name: "bulbasaur",
+    image: null,
     types: [],
-    stats: [{ base_stat: 49, stat: { name: "attack" } }],
-    sprites: { other: { "official-artwork": { front_default: null } } },
+    stats: createStats({ attack: 49 }),
   },
-] as Pokemon[];
+] as PokemonCardData[];
 
 describe("sortPokemons", () => {
   it("sorts by id when sort is default", () => {
@@ -38,14 +50,14 @@ describe("sortPokemons", () => {
     expect(pokemons.map((pokemon) => pokemon.id)).toEqual([2, 1]);
   });
 
-  it("uses 0 when a pokemon does not have the selected stat", () => {
-    const withoutAttack = {
+  it("sorts zero stat values lower", () => {
+    const withZeroAttack = {
       ...pokemons[0],
       id: 3,
-      stats: [],
-    } as Pokemon;
+      stats: createStats(),
+    } as PokemonCardData;
 
-    const result = sortPokemons([withoutAttack, pokemons[1]], "attack");
+    const result = sortPokemons([withZeroAttack, pokemons[1]], "attack");
 
     expect(result.map((pokemon) => pokemon.id)).toEqual([1, 3]);
   });

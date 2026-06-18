@@ -1,11 +1,14 @@
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonCardData } from "../types/pokemon";
 //logica-filtrar
-export function filterPokemons(pokemons: Pokemon[], search: string): Pokemon[] {
+export function filterPokemons(
+  pokemons: PokemonCardData[],
+  search: string,
+): PokemonCardData[] {
   const query = search.toLowerCase().trim();
 
   return pokemons.filter(
     (pokemon) =>
       pokemon.name.includes(query) ||
-      pokemon.types.some(({ type }) => type.name.startsWith(query)),
+      pokemon.types.some((type) => type.startsWith(query)),
   );
 }

@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { filterPokemons } from "../utils/pokemonFilter";
 import { sortPokemons, type SortOption } from "../utils/pokemonSort";
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonCardData } from "../types/pokemon";
 
 export function useVisiblePokemons(
-  pokemons: Pokemon[],
+  pokemons: PokemonCardData[],
   search: string,
   sort: SortOption,
-): Pokemon[] {
+): PokemonCardData[] {
   return useMemo(() => {
     const filteredPokemons = filterPokemons(pokemons, search);
 

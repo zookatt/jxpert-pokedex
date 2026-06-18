@@ -1,18 +1,30 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { vi, describe, expect, it } from "vitest";
 import { usePokemonsByRegion } from "./usePokemonsByRegion";
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonCardData, PokemonStatName } from "../types/pokemon";
 import type { RegionName } from "../constants/regions";
+
+const createStats = (
+  overrides: Partial<Record<PokemonStatName, number>> = {},
+): Record<PokemonStatName, number> => ({
+  hp: 0,
+  attack: 0,
+  defense: 0,
+  "special-attack": 0,
+  "special-defense": 0,
+  speed: 0,
+  ...overrides,
+});
 
 const mockPokemons = [
   {
     id: 1,
     name: "bulbasaur",
-    types: [{ type: { name: "grass" } }],
-    stats: [],
-    sprites: { other: { "official-artwork": { front_default: null } } },
+    image: null,
+    types: ["grass"],
+    stats: createStats(),
   },
-] as Pokemon[];
+] as PokemonCardData[];
 
 describe("usePokemonsByRegion", () => {
   it("loads pokemons with the injected fetcher", async () => {

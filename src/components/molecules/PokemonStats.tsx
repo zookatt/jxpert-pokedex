@@ -1,8 +1,8 @@
 import { StatBar } from "../atoms/StatBar";
-import type { Pokemon, PokemonStatName } from "../../types/pokemon";
+import type { PokemonCardData, PokemonStatName } from "../../types/pokemon";
 
 interface PokemonStatsProps {
-  stats: Pokemon["stats"];
+  stats: PokemonCardData["stats"];
 }
 
 const STAT_OPTIONS: {
@@ -22,8 +22,7 @@ export function PokemonStats({ stats }: PokemonStatsProps) {
   return (
     <ul aria-description="Stats resume">
       {STAT_OPTIONS.map(({ name, label, shortName }) => {
-        const value =
-          stats.find(({ stat }) => stat.name === name)?.base_stat ?? 0;
+        const value = stats[name];
 
         return (
           <StatBar

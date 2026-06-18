@@ -1,15 +1,16 @@
-import type { Pokemon, PokemonStatName } from "../types/pokemon";
+import type { PokemonCardData, PokemonStatName } from "../types/pokemon";
 //logica-sort
 export type SortOption = "default" | PokemonStatName;
 
-export function sortPokemons(pokemons: Pokemon[], sort: SortOption): Pokemon[] {
+export function sortPokemons(
+  pokemons: PokemonCardData[],
+  sort: SortOption,
+): PokemonCardData[] {
   return [...pokemons].sort((a, b) => {
     if (sort === "default") return a.id - b.id;
 
-    const aStat =
-      a.stats.find(({ stat }) => stat.name === sort)?.base_stat ?? 0;
-    const bStat =
-      b.stats.find(({ stat }) => stat.name === sort)?.base_stat ?? 0;
+    const aStat = a.stats[sort];
+    const bStat = b.stats[sort];
 
     return bStat - aStat;
   });

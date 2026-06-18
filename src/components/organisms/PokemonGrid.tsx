@@ -1,9 +1,9 @@
 import { LoadingPokemonCard } from "../molecules/LoadingPokemonCard";
 import { PokemonCard } from "../molecules/PokemonCard";
-import type { Pokemon } from "../../types/pokemon";
+import type { PokemonCardData } from "../../types/pokemon";
 
 interface PokemonGridProps {
-  pokemons: Pokemon[];
+  pokemons: PokemonCardData[];
   isLoading: boolean;
 }
 

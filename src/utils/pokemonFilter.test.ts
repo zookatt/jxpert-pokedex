@@ -1,23 +1,35 @@
 import { filterPokemons } from "./pokemonFilter";
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonCardData, PokemonStatName } from "../types/pokemon";
 import { describe, expect, it } from "vitest";
+
+const createStats = (
+  overrides: Partial<Record<PokemonStatName, number>> = {},
+): Record<PokemonStatName, number> => ({
+  hp: 0,
+  attack: 0,
+  defense: 0,
+  "special-attack": 0,
+  "special-defense": 0,
+  speed: 0,
+  ...overrides,
+});
 
 const pokemons = [
   {
     id: 1,
     name: "bulbasaur",
-    types: [{ type: { name: "grass" } }, { type: { name: "poison" } }],
-    stats: [],
-    sprites: { other: { "official-artwork": { front_default: null } } },
+    image: null,
+    types: ["grass", "poison"],
+    stats: createStats(),
   },
   {
     id: 4,
     name: "charmander",
-    types: [{ type: { name: "fire" } }],
-    stats: [],
-    sprites: { other: { "official-artwork": { front_default: null } } },
+    image: null,
+    types: ["fire"],
+    stats: createStats(),
   },
-] as Pokemon[];
+] as PokemonCardData[];
 
 describe("filterPokemons", () => {
   it("filters by pokemon name", () => {

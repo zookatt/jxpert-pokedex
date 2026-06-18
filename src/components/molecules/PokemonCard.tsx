@@ -1,15 +1,15 @@
 import type { CSSProperties } from "react";
 import { TypeIcon } from "../atoms/TypeIcon";
 import { PokemonStats } from "./PokemonStats";
-import type { Pokemon } from "../../types/pokemon";
+import type { PokemonCardData } from "../../types/pokemon";
 
 interface PokemonCardProps {
-  pokemon: Pokemon;
+  pokemon: PokemonCardData;
 }
 
 export function PokemonCard({ pokemon }: PokemonCardProps) {
-  const primaryType = pokemon.types[0].type.name;
-  const secondaryType = pokemon.types[1]?.type.name;
+  const primaryType = pokemon.types[0] ?? "normal";
+  const secondaryType = pokemon.types[1];
 
   const customStyles = {
     "--color-type": `var(--color-${primaryType})`,
@@ -33,9 +33,7 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
 
         <img
           className="card__avatar"
-          src={
-            pokemon.sprites.other["official-artwork"].front_default ?? undefined
-          }
+          src={pokemon.image ?? undefined}
           loading="lazy"
           alt={`${pokemon.name} artwork`}
         />

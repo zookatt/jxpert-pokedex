@@ -1,29 +1,23 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { PokemonGrid } from "./PokemonGrid";
-import type { Pokemon } from "../../types/pokemon";
+import type { PokemonCardData } from "../../types/pokemon";
 const pokemons = [
   {
     id: 25,
     name: "pikachu",
-    types: [{ type: { name: "electric" } }],
-    stats: [
-      { base_stat: 35, stat: { name: "hp" } },
-      { base_stat: 55, stat: { name: "attack" } },
-      { base_stat: 40, stat: { name: "defense" } },
-      { base_stat: 50, stat: { name: "special-attack" } },
-      { base_stat: 50, stat: { name: "special-defense" } },
-      { base_stat: 90, stat: { name: "speed" } },
-    ],
-    sprites: {
-      other: {
-        "official-artwork": {
-          front_default: "pikachu.png",
-        },
-      },
+    image: "pikachu.png",
+    types: ["electric"],
+    stats: {
+      hp: 35,
+      attack: 55,
+      defense: 40,
+      "special-attack": 50,
+      "special-defense": 50,
+      speed: 90,
     },
   },
-] as Pokemon[];
+] as PokemonCardData[];
 
 describe("PokemonGrid", () => {
   it("renders loading placeholders when loading", () => {

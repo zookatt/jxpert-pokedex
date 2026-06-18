@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { getPokemonsByRegion } from "../services/pokemonApi";
 import type { RegionName } from "../constants/regions";
-import type { Pokemon } from "../types/pokemon";
+import type { PokemonCardData } from "../types/pokemon";
 
-type GetPokemonsByRegion = (region: RegionName) => Promise<Pokemon[]>;
+type GetPokemonsByRegion = (region: RegionName) => Promise<PokemonCardData[]>;
 
 export function usePokemonsByRegion(
   region: RegionName,
   getPokemons: GetPokemonsByRegion = getPokemonsByRegion,
 ) {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [pokemons, setPokemons] = useState<PokemonCardData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

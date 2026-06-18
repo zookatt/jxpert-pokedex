@@ -3,10 +3,12 @@ import type {
   Pokemon,
   PokemonListItem,
   PokemonListResponse,
+  PokemonCardData,
 } from "../types/pokemon";
+import { mapPokemonToView } from "../utils/pokemonMap";
 //acceso externo api
 
-const pokemonRegionCache = new Map<RegionName, Pokemon[]>();
+const pokemonRegionCache = new Map<RegionName, PokemonCardData[]>();
 const POKEMON_DETAIL_CONCURRENCY = 20;
 
 async function mapWithConcurrency<T, R>(
@@ -38,7 +40,7 @@ async function fetchPokemonDetail({ url }: PokemonListItem): Promise<Pokemon> {
 
 export async function getPokemonsByRegion(
   region: RegionName,
-): Promise<Pokemon[]> {
+): Promise<PokemonCardData[]> {
   const cachedPokemons = pokemonRegionCache.get(region);
 
   if (cachedPokemons) {
@@ -61,7 +63,9 @@ export async function getPokemonsByRegion(
     fetchPokemonDetail,
   );
 
-  pokemonRegionCache.set(region, pokemons);
+  const pokemonViews = pokemons.map(mapPokemonToView);
 
-  return pokemons;
+  pokemonRegionCache.set(region, pokemonViews);
+
+  return pokemonViews;
 }

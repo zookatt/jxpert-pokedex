@@ -1,3 +1,11 @@
+export interface PokemonCardData {
+  id: number;
+  name: string;
+  image: string | null;
+  types: PokemonTypeName[];
+  stats: Record<PokemonStatName, number>;
+}
+
 export type PokemonTypeName =
   | "bug"
   | "dark"
