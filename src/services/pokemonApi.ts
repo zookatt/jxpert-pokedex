@@ -1,8 +1,40 @@
 import { REGIONS, type RegionName } from "../constants/regions";
-import type { Pokemon, PokemonListResponse } from "../types/pokemon";
+import type {
+  Pokemon,
+  PokemonListItem,
+  PokemonListResponse,
+} from "../types/pokemon";
 //acceso externo api
 
 const pokemonRegionCache = new Map<RegionName, Pokemon[]>();
+const POKEMON_DETAIL_CONCURRENCY = 20;
+
+async function mapWithConcurrency<T, R>(
+  items: T[],
+  limit: number,
+  mapper: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results: R[] = [];
+
+  for (let index = 0; index < items.length; index += limit) {
+    const batch = items.slice(index, index + limit);
+    const batchResults = await Promise.all(batch.map(mapper));
+
+    results.push(...batchResults);
+  }
+
+  return results;
+}
+
+async function fetchPokemonDetail({ url }: PokemonListItem): Promise<Pokemon> {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("Could not fetch pokemon detail");
+  }
+
+  return response.json();
+}
 
 export async function getPokemonsByRegion(
   region: RegionName,
@@ -23,16 +55,10 @@ export async function getPokemonsByRegion(
   }
   const { results }: PokemonListResponse = await response.json();
 
-  const pokemons = await Promise.all(
-    results.map(async ({ url }) => {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("Could not fetch pokemon detail");
-      }
-
-      return response.json();
-    }),
+  const pokemons = await mapWithConcurrency(
+    results,
+    POKEMON_DETAIL_CONCURRENCY,
+    fetchPokemonDetail,
   );
 
   pokemonRegionCache.set(region, pokemons);
