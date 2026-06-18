@@ -1,31 +1,39 @@
 import { StatBar } from "../atoms/StatBar";
-import type { Pokemon } from "../../types/pokemon";
+import type { Pokemon, PokemonStatName } from "../../types/pokemon";
 
 interface PokemonStatsProps {
   stats: Pokemon["stats"];
 }
 
+const STAT_OPTIONS: {
+  name: PokemonStatName;
+  label: string;
+  shortName: string;
+}[] = [
+  { name: "hp", label: "Health points", shortName: "Hp" },
+  { name: "attack", label: "Attack", shortName: "At" },
+  { name: "defense", label: "Defense", shortName: "Df" },
+  { name: "special-attack", label: "Special attack", shortName: "SpA" },
+  { name: "special-defense", label: "Special defense", shortName: "SpD" },
+  { name: "speed", label: "Speed", shortName: "Spd" },
+] as const;
+
 export function PokemonStats({ stats }: PokemonStatsProps) {
   return (
     <ul aria-description="Stats resume">
-      <StatBar
-        label="Health points"
-        shortName="Hp"
-        value={stats[0].base_stat}
-      />
-      <StatBar label="Attack" shortName="At" value={stats[1].base_stat} />
-      <StatBar label="Defense" shortName="Df" value={stats[2].base_stat} />
-      <StatBar
-        label="Special attack"
-        shortName="SpA"
-        value={stats[3].base_stat}
-      />
-      <StatBar
-        label="Special defense"
-        shortName="SpD"
-        value={stats[4].base_stat}
-      />
-      <StatBar label="Speed" shortName="Spd" value={stats[5].base_stat} />
+      {STAT_OPTIONS.map(({ name, label, shortName }) => {
+        const value =
+          stats.find(({ stat }) => stat.name === name)?.base_stat ?? 0;
+
+        return (
+          <StatBar
+            key={name}
+            label={label}
+            shortName={shortName}
+            value={value}
+          />
+        );
+      })}
     </ul>
   );
 }
