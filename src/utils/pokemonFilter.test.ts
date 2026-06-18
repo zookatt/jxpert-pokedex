@@ -1,4 +1,4 @@
-import { filterPokemons } from "./pokemonFilters";
+import { filterPokemons } from "./pokemonFilter";
 import type { Pokemon } from "../types/pokemon";
 import { describe, expect, it } from "vitest";
 

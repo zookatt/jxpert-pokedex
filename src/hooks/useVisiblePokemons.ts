@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { filterPokemons } from "../utils/pokemonFilters";
+import { filterPokemons } from "../utils/pokemonFilter";
 import { sortPokemons, type SortOption } from "../utils/pokemonSort";
 import type { Pokemon } from "../types/pokemon";
 
