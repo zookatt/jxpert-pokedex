@@ -1,6 +1,7 @@
 import { usePokemonsByRegion } from "./hooks/usePokemonsByRegion";
 import { useVisiblePokemons } from "./hooks/useVisiblePokemons";
 import { usePokemonFeatures } from "./hooks/usePokemonFeatures";
+import { useFavoritePokemons } from "./hooks/useFavoritePokemons";
 import { PokemonGrid } from "./components/organisms/PokemonGrid";
 import { Header } from "./components/organisms/Header";
 import { Footer } from "./components/organisms/Footer";
@@ -20,8 +21,8 @@ export const App = () => {
     handleSortSelect,
   } = usePokemonFeatures();
   const { pokemons, isLoading, error } = usePokemonsByRegion(selectedRegion);
-
   const visiblePokemons = useVisiblePokemons(pokemons, search, selectedSort);
+  const { toggleFavorite, isFavorite } = useFavoritePokemons();
 
   return (
     <div className="layout">
@@ -40,7 +41,12 @@ export const App = () => {
           onSortSelect={handleSortSelect}
         />
 
-        <PokemonGrid pokemons={visiblePokemons} isLoading={isLoading} />
+        <PokemonGrid
+          pokemons={visiblePokemons}
+          isLoading={isLoading}
+          isFavoritePokemon={isFavorite}
+          onToggleFavorite={toggleFavorite}
+        />
 
         {error && !isLoading && <p className="nopokemons">{error}</p>}
 
