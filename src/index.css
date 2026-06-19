@@ -753,7 +753,7 @@ custom-progress::-ms-fill {
   filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.18));
 }
 
-.favorites-collage__pokemon--0 {
+.favorites-collage__pokemon--2 {
   z-index: 2;
   translate: -70% -2%;
 }
@@ -763,14 +763,14 @@ custom-progress::-ms-fill {
   translate: -32% -18%;
 }
 
-.favorites-collage__pokemon--2 {
+.favorites-collage__pokemon--0 {
   z-index: 4;
   translate: 12% -8%;
 }
 
 .favorites-collage__pokemon--3 {
   z-index: 5;
-  translate: 48% 0;
+  translate: -120% 10%;
 }
 
 .favorites-collage__pokemon--4 {
@@ -780,7 +780,7 @@ custom-progress::-ms-fill {
 
 .favorites-collage__pokemon--5 {
   z-index: 8;
-  translate: -80% 150%;
+  translate: -120% 150%;
   width: 4rem;
 }
 
