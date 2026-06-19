@@ -141,6 +141,7 @@ button {
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-m);
 
   position: sticky;
@@ -160,7 +161,8 @@ button {
   box-shadow: var(--shadow-m);
 }
 
-.header__brand {
+.header__brand,
+.header__dreamteam {
   display: flex;
   align-items: center;
   gap: var(--spacing-m);
