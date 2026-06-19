@@ -7,7 +7,13 @@ interface FavoritesCollageProps {
 }
 
 export function FavoritesCollage({ pokemons }: FavoritesCollageProps) {
-  const dreamTeam = pokemons.slice(0, 6);
+  const dreamTeam = pokemons
+    .filter((pokemon) => pokemon.image)
+    .slice(0, 6)
+    .toSorted(
+      (pokemonA, pokemonB) =>
+        getPokemonVisualSize(pokemonB) - getPokemonVisualSize(pokemonA),
+    );
 
   return (
     <section className="favorites-collage" aria-label="Dream team">
@@ -16,8 +22,9 @@ export function FavoritesCollage({ pokemons }: FavoritesCollageProps) {
 
         <div className="favorites-collage__pokemons">
           {dreamTeam.map((pokemon, index) => {
+            const pokemonSize = getPokemonVisualSize(pokemon);
             const customStyles = {
-              "--pokemon-size": `${getPokemonVisualSize(pokemon)}px`,
+              "--pokemon-size": `${pokemonSize}px`,
             } as CSSProperties;
 
             return (
