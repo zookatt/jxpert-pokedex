@@ -1,20 +1,14 @@
+import { FavoritesCollage } from "../components/organisms/FavoritesCollage";
 import { useFavoritePokemons } from "../hooks/useFavoritePokemons";
-import { PokemonGrid } from "../components/organisms/PokemonGrid";
 
 export function FavoritesPage() {
-  const { favoritePokemons, toggleFavorite, isFavorite } =
-    useFavoritePokemons();
+  const { favoritePokemons } = useFavoritePokemons();
 
   return (
-    <main className="container">
-      <PokemonGrid
-        pokemons={favoritePokemons}
-        isLoading={false}
-        isFavoritePokemon={isFavorite}
-        onToggleFavorite={toggleFavorite}
-      />
-
-      {favoritePokemons.length === 0 && (
+    <main className="favorites-page">
+      {favoritePokemons.length > 0 ? (
+        <FavoritesCollage pokemons={favoritePokemons} />
+      ) : (
         <p className="nopokemons">No favorite pokemons yet</p>
       )}
     </main>

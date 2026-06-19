@@ -24,6 +24,8 @@ export function mapPokemonToView(pokemon: Pokemon): PokemonCardData {
     id: pokemon.id,
     name: pokemon.name,
     image: pokemon.sprites.other["official-artwork"].front_default,
+    height: pokemon.height,
+    weight: pokemon.weight,
     types: pokemon.types.map(({ type }) => type.name),
     stats,
   };

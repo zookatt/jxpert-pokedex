@@ -5,6 +5,8 @@ import type { Pokemon, PokemonCardData } from "../types/pokemon";
 const pokemon = {
   id: 25,
   name: "pikachu",
+  height: 4,
+  weight: 60,
   types: [{ type: { name: "electric" } }],
   stats: [
     { base_stat: 35, stat: { name: "hp" } },
@@ -27,6 +29,8 @@ const pokemonCardData: PokemonCardData = {
   id: 25,
   name: "pikachu",
   image: "pikachu.png",
+  height: 4,
+  weight: 60,
   types: ["electric"],
   stats: {
     hp: 35,

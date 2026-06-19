@@ -2,6 +2,8 @@ export interface PokemonCardData {
   id: number;
   name: string;
   image: string | null;
+  height: number;
+  weight: number;
   types: PokemonTypeName[];
   stats: Record<PokemonStatName, number>;
 }
@@ -50,6 +52,8 @@ export interface PokemonStat {
 export interface Pokemon {
   id: number;
   name: string;
+  height: number;
+  weight: number;
   types: PokemonType[];
   stats: PokemonStat[];
   sprites: {

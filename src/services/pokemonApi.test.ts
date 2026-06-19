@@ -25,6 +25,8 @@ describe("getPokemonsByRegion", () => {
         await mockFetchResponse({
           id: 1,
           name: "bulbasaur",
+          height: 7,
+          weight: 69,
           types: [],
           stats: [],
           sprites: {
@@ -88,6 +90,8 @@ describe("getPokemonsByRegion", () => {
         await mockFetchResponse({
           id: 1,
           name: "bulbasaur",
+          height: 7,
+          weight: 69,
           types: [],
           stats: [],
           sprites: {
@@ -134,6 +138,8 @@ describe("getPokemonsByRegion", () => {
               Promise.resolve({
                 id: Number(url.split("/").at(-1)),
                 name: "pokemon",
+                height: 7,
+                weight: 69,
                 types: [],
                 stats: [],
                 sprites: {

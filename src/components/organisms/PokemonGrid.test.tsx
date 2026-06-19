@@ -8,6 +8,8 @@ const pokemons = [
     id: 25,
     name: "pikachu",
     image: "pikachu.png",
+    height: 4,
+    weight: 60,
     types: ["electric"],
     stats: {
       hp: 35,

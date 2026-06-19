@@ -21,6 +21,8 @@ const mockPokemons = [
     id: 1,
     name: "bulbasaur",
     image: null,
+    height: 7,
+    weight: 69,
     types: ["grass"],
     stats: createStats(),
   },

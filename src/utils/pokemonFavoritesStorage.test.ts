@@ -25,6 +25,8 @@ const bulbasaur: PokemonCardData = {
   id: 1,
   name: "bulbasaur",
   image: "bulbasaur.png",
+  height: 7,
+  weight: 69,
   types: ["grass", "poison"],
   stats: createStats({ attack: 49 }),
 };
@@ -33,6 +35,8 @@ const charmander: PokemonCardData = {
   id: 4,
   name: "charmander",
   image: "charmander.png",
+  height: 6,
+  weight: 85,
   types: ["fire"],
   stats: createStats({ attack: 52 }),
 };
