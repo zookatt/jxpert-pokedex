@@ -1,13 +1,20 @@
 import type { CSSProperties } from "react";
 import { TypeIcon } from "../atoms/TypeIcon";
 import { PokemonStats } from "./PokemonStats";
+import { FavoriteButton } from "../atoms/FavoriteButton";
 import type { PokemonCardData } from "../../types/pokemon";
 
 interface PokemonCardProps {
   pokemon: PokemonCardData;
+  isFavorite: boolean;
+  onToggleFavorite: (pokemon: PokemonCardData) => void;
 }
 
-export function PokemonCard({ pokemon }: PokemonCardProps) {
+export function PokemonCard({
+  pokemon,
+  isFavorite,
+  onToggleFavorite,
+}: PokemonCardProps) {
   const primaryType = pokemon.types[0] ?? "normal";
   const secondaryType = pokemon.types[1];
 
@@ -39,6 +46,10 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
         />
 
         <section className="card__content">
+          <FavoriteButton
+            isFavorite={isFavorite}
+            onClick={() => onToggleFavorite(pokemon)}
+          />
           <h3 className="card__title">{pokemon.name}</h3>
           <PokemonStats stats={pokemon.stats} />
         </section>

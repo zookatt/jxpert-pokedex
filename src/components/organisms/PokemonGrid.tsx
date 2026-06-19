@@ -5,9 +5,16 @@ import type { PokemonCardData } from "../../types/pokemon";
 interface PokemonGridProps {
   pokemons: PokemonCardData[];
   isLoading: boolean;
+  isFavoritePokemon: (pokemonId: number) => boolean;
+  onToggleFavorite: (pokemon: PokemonCardData) => void;
 }
 
-export function PokemonGrid({ pokemons, isLoading }: PokemonGridProps) {
+export function PokemonGrid({
+  pokemons,
+  isLoading,
+  isFavoritePokemon,
+  onToggleFavorite,
+}: PokemonGridProps) {
   if (isLoading) {
     return (
       <div className="grid" aria-hidden="true">
@@ -25,7 +32,12 @@ export function PokemonGrid({ pokemons, isLoading }: PokemonGridProps) {
   return (
     <ul className="grid">
       {pokemons.map((pokemon) => (
-        <PokemonCard key={`pokemon-card-${pokemon.id}`} pokemon={pokemon} />
+        <PokemonCard
+          key={`pokemon-card-${pokemon.id}`}
+          pokemon={pokemon}
+          isFavorite={isFavoritePokemon(pokemon.id)}
+          onToggleFavorite={onToggleFavorite}
+        />
       ))}
     </ul>
   );

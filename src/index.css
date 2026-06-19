@@ -650,3 +650,17 @@ custom-progress::-ms-fill {
 .favorite-button.active {
   color: var(--color-neutral-0);
 }
+
+.card__content {
+  position: relative;
+}
+
+.card__content .favorite-button {
+  position: absolute;
+  top: var(--spacing-s);
+  right: var(--spacing-s);
+}
+
+/* -------------- */
+/* Favorite button - end */
+/* -------------- */
