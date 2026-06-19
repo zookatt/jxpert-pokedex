@@ -6,8 +6,8 @@ interface SortButtonProps {
 export function SortButton({ isOpen, onClick }: SortButtonProps) {
   return (
     <button
-      role="combobox"
-      aria-haspopup="listbox"
+      type="button"
+      aria-haspopup="true"
       aria-controls="sort-list"
       aria-label="Sort by"
       aria-expanded={isOpen}
@@ -24,6 +24,7 @@ export function SortButton({ isOpen, onClick }: SortButtonProps) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        aria-hidden="true"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M4 6l9 0" />

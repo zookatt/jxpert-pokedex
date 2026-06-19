@@ -16,8 +16,8 @@ export function RegionDropdown({
   return (
     <div className="dropdown">
       <button
-        role="combobox"
-        aria-haspopup="listbox"
+        type="button"
+        aria-haspopup="true"
         aria-controls="regions-list"
         aria-label="Select regions"
         aria-expanded={isOpen}
@@ -27,6 +27,7 @@ export function RegionDropdown({
         {selectedRegion}
 
         <svg
+          aria-hidden="true"
           width="16"
           height="16"
           viewBox="0 0 16 16"

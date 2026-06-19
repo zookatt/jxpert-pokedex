@@ -18,7 +18,6 @@ export function SortMenu({ selectedSort, onSelectSort }: SortMenuProps) {
         id="sort-list"
         aria-label="Sort by"
       >
-        {" "}
         {SORT_OPTIONS.map((option) => (
           <SortPill
             key={option.value}
