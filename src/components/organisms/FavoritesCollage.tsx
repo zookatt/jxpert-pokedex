@@ -9,7 +9,7 @@ interface FavoritesCollageProps {
 export function FavoritesCollage({ pokemons }: FavoritesCollageProps) {
   const dreamTeam = pokemons
     .filter((pokemon) => pokemon.image)
-    .slice(0, 6)
+    .slice(-6)
     .toSorted(
       (pokemonA, pokemonB) =>
         getPokemonVisualSize(pokemonB) - getPokemonVisualSize(pokemonA),
