@@ -698,7 +698,9 @@ custom-progress::-ms-fill {
 .favorites-collage__frame {
   position: relative;
 
-  width: min(100%, 740px);
+  --collage-scale: 1;
+
+  width: min(calc(100vw - var(--spacing-2xl)), 740px);
   aspect-ratio: 16 / 9;
 
   border: 6px solid var(--color-neutral-0);
@@ -732,7 +734,7 @@ custom-progress::-ms-fill {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: 3rem;
+
   display: grid;
   place-items: center;
 
@@ -745,7 +747,7 @@ custom-progress::-ms-fill {
 .favorites-collage__pokemon {
   position: absolute;
 
-  width: var(--pokemon-size);
+  width: clamp(44px, calc(var(--pokemon-size) * var(--collage-scale)), var(--pokemon-size));
   max-width: 42%;
   max-height: 78%;
 
@@ -753,35 +755,52 @@ custom-progress::-ms-fill {
   filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.18));
 }
 
-.favorites-collage__pokemon--2 {
-  z-index: 2;
-  translate: -70% -2%;
+.favorites-collage__pokemon--0 {
+  --slot-scale: 1;
+
+  z-index: 4;
+  translate: 30% -8%;
+  scale: var(--slot-scale);
 }
 
 .favorites-collage__pokemon--1 {
-  z-index: 3;
-  translate: -32% -18%;
+  --slot-scale: 1;
+
+  z-index: 2;
+  translate: -8% -18%;
+  scale: var(--slot-scale);
 }
 
-.favorites-collage__pokemon--0 {
-  z-index: 4;
-  translate: 12% -8%;
+.favorites-collage__pokemon--2 {
+  --slot-scale: 0.98;
+
+  z-index: 3;
+  translate: -46% -13%;
+  scale: var(--slot-scale);
 }
 
 .favorites-collage__pokemon--3 {
+  --slot-scale: 0.9;
+
   z-index: 5;
-  translate: -120% 10%;
+  translate: -80% -5%;
+  scale: var(--slot-scale);
 }
 
 .favorites-collage__pokemon--4 {
+  --slot-scale: 0.62;
+
   z-index: 7;
-  translate: -16% 34%;
+  translate: -2% 42%;
+  scale: var(--slot-scale);
 }
 
 .favorites-collage__pokemon--5 {
+  --slot-scale: 0.42;
+
   z-index: 8;
-  translate: -120% 150%;
-  width: 4rem;
+  translate: -48% 58%;
+  scale: var(--slot-scale);
 }
 
 .favorites-collage__icons {
@@ -811,39 +830,21 @@ custom-progress::-ms-fill {
   object-fit: contain;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   .favorites-collage__frame {
-    width: min(100%, 520px);
-    aspect-ratio: 4 / 3;
+    --collage-scale: 0.86;
+  }
+}
+
+@media (max-width: 600px) {
+  .favorites-page {
+    padding-inline: var(--spacing-s);
   }
 
-  .favorites-collage__pokemon {
-    max-width: 48%;
-    max-height: 70%;
-  }
+  .favorites-collage__frame {
+    --collage-scale: 0.68;
 
-  .favorites-collage__pokemon--0 {
-    translate: -58% -2%;
-  }
-
-  .favorites-collage__pokemon--1 {
-    translate: -24% -22%;
-  }
-
-  .favorites-collage__pokemon--2 {
-    translate: 12% -8%;
-  }
-
-  .favorites-collage__pokemon--3 {
-    translate: 42% 0;
-  }
-
-  .favorites-collage__pokemon--4 {
-    translate: -14% 34%;
-  }
-
-  .favorites-collage__pokemon--5 {
-    translate: 52% 28%;
+    width: min(calc(100vw - var(--spacing-m)), 520px);
   }
 
   .favorites-collage__icons {
